@@ -16,7 +16,6 @@ namespace LowPolyBacklogApi.Entities
 
         public int GameId { get; set; }
 
-        // JOIN
         public Game Game { get; set; } = null!;
     }
 }

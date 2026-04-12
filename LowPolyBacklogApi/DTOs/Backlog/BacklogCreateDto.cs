@@ -5,7 +5,7 @@ namespace LowPolyBacklogApi.DTOs.Backlog
 {
     public class BacklogCreateDto
     {
-        [Required(ErrorMessage = "Status title is required.")] // Esta bien poner el status aca o lo omito en el create?
+        [Required(ErrorMessage = "Status title is required.")] 
         public PlayStatus Status { get; set; } = PlayStatus.Pending;
 
         [Range(1, 10, ErrorMessage = "Rating must be between 1 and 10.")]
