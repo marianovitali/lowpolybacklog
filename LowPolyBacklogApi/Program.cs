@@ -33,6 +33,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 builder.Services.AddScoped<IGameRepository, GameRepository>();
 builder.Services.AddScoped<IGameService, GameService>();
+builder.Services.AddScoped<IBacklogRepository, BacklogRepository>();
+builder.Services.AddScoped<IBacklogService, BacklogService>();
 
 builder.Services.AddCors(options =>
 {

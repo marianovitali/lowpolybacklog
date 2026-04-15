@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("LowPolyBacklogApi")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+783384744b7d6a9cc71a1c8fb60953ca929b0728")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+cc2308a6ec66d528c8f9da3931e9e7e0cfb14aa9")]
 [assembly: System.Reflection.AssemblyProductAttribute("LowPolyBacklogApi")]
 [assembly: System.Reflection.AssemblyTitleAttribute("LowPolyBacklogApi")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
