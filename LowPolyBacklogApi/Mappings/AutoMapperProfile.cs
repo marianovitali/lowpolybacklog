@@ -13,8 +13,7 @@ namespace LowPolyBacklogApi.Mappings
             // GET
             CreateMap<Game, GameResponseDto>()
                 .ForMember(dto => dto.Genres,
-                            options => options.MapFrom(genre => genre.Genres.Select(g => g.Name).ToList()));
-
+                            options => options.MapFrom(game => game.Genres.Select(g => g.Name).ToList()));
 
             // ADD
             CreateMap<GameCreateDto, Game>()
