@@ -1,4 +1,5 @@
 ﻿using LowPolyBacklogApi.DTOs.Game;
+using LowPolyBacklogApi.Helpers;
 using LowPolyBacklogApi.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,14 +17,23 @@ namespace LowPolyBacklogApi.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<GameResponseDto>>> GetAll(string? title, string? genre, int? year)
+        public async Task<ActionResult<PagedResponse<GameResponseDto>>> GetAll([FromQuery] GameQueryParameters parameters)
         {
-            var games = await _gameService.GetAllGamesAsync(title, genre, year);
-            return Ok(games);
+            var (gamesDto, totalCount) = await _gameService.GetAllGamesAsync(parameters);
+
+            var response = new PagedResponse<GameResponseDto>
+            {
+                Items = gamesDto,
+                PageNumber = parameters.PageNumber,
+                PageSize = parameters.PageSize,
+                TotalItems = totalCount
+            };
+
+            return Ok(response);
         }
 
         [HttpGet("{id:int}")]
-        public async Task<ActionResult<GameResponseDto>> GetById(int id)
+        public async Task<ActionResult<GameDetailsResponseDto>> GetById(int id)
         {
             var game = await _gameService.GetGameByIdAsync(id);
 

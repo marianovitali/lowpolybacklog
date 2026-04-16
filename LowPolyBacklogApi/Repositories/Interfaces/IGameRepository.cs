@@ -1,10 +1,11 @@
-﻿using LowPolyBacklogApi.Entities;
+﻿using LowPolyBacklogApi.DTOs.Game;
+using LowPolyBacklogApi.Entities;
 
 namespace LowPolyBacklogApi.Repositories.Interfaces
 {
     public interface IGameRepository
     {
-        Task<IEnumerable<Game>> GetAllAsync(string? title, string? genre, int? year);
+        Task<(IEnumerable<Game> items, int totalCount)> GetAllAsync(GameQueryParameters parameters);
         Task<Game?> GetByIdAsync(int id);
         Task AddAsync(Game game);
         Task UpdateAsync(Game game);
@@ -12,3 +13,4 @@ namespace LowPolyBacklogApi.Repositories.Interfaces
 
     }
 }
+

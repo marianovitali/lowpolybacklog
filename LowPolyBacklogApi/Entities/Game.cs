@@ -14,5 +14,7 @@
         public int DiscCount { get; set; } = 1;
 
         public ICollection<Genre> Genres { get; set; } = new List<Genre>();
+
+        public BacklogEntry? BacklogEntry { get; set; }
     }
 }

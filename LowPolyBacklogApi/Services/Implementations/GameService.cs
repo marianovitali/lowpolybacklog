@@ -21,19 +21,22 @@ namespace LowPolyBacklogApi.Services.Implementations
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<GameResponseDto>> GetAllGamesAsync(string? title, string? genre, int? year)
+        public async Task<(IEnumerable<GameResponseDto> items, int totalCount)> GetAllGamesAsync(GameQueryParameters parameters)
         {
-            var games = await _gameRepository.GetAllAsync(title, genre, year);
+            var (games, totalCount) = await _gameRepository.GetAllAsync(parameters);
 
-            return _mapper.Map<IEnumerable<GameResponseDto>>(games);
+            var gamesDto = _mapper.Map<IEnumerable<GameResponseDto>>(games);
 
+            return (gamesDto, totalCount);
         }
 
-        public async Task<GameResponseDto?> GetGameByIdAsync(int id)
+        public async Task<GameDetailsResponseDto?> GetGameByIdAsync(int id)
         {
             var game = await _gameRepository.GetByIdAsync(id);
 
-            return _mapper.Map<GameResponseDto>(game);
+            if (game == null) return null;
+
+            return _mapper.Map<GameDetailsResponseDto>(game);
         }
 
         public async Task<GameResponseDto> CreateGameAsync(GameCreateDto game)
