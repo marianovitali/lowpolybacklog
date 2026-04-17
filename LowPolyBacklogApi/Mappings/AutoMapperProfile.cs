@@ -15,6 +15,9 @@ namespace LowPolyBacklogApi.Mappings
                 .ForMember(dto => dto.Genres,
                             options => options.MapFrom(game => game.Genres.Select(g => g.Name).ToList()));
 
+            CreateMap<Game, GameDetailsResponseDto>()
+                 .ForMember(dest => dest.BacklogInfo, opt => opt.MapFrom(src => src.BacklogEntry));
+
             // ADD
             CreateMap<GameCreateDto, Game>()
                 .ForMember(dest => dest.Genres, opt => opt.Ignore());
