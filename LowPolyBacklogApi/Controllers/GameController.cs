@@ -1,4 +1,5 @@
 ﻿using LowPolyBacklogApi.DTOs.Game;
+using LowPolyBacklogApi.Filters;
 using LowPolyBacklogApi.Helpers;
 using LowPolyBacklogApi.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -45,6 +46,7 @@ namespace LowPolyBacklogApi.Controllers
             return Ok(game);
         }
 
+        [ApiKeyAuth]
         [HttpPost]
         public async Task<ActionResult<GameResponseDto>> Create([FromBody] GameCreateDto game)
         {
@@ -53,6 +55,7 @@ namespace LowPolyBacklogApi.Controllers
             return CreatedAtAction(nameof(GetById), new { id = createdGame.Id }, createdGame);
         }
 
+        [ApiKeyAuth]
         [HttpPut("{id:int}")]
         public async Task<ActionResult<GameResponseDto>> Update(int id, [FromBody] GameUpdateDto game)
         {
@@ -67,6 +70,7 @@ namespace LowPolyBacklogApi.Controllers
             }
         }
 
+        [ApiKeyAuth]
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> Delete(int id)
         {

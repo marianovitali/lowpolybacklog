@@ -24,7 +24,21 @@ builder.Services.AddSwaggerGen(options =>
     {
         Title = "Low Poly API",
         Version = "v1",
-        Description = "API personal para gestión de backlog de juegos de PS1."
+        Description = "Personal API for managing a PS1 game backlog."
+    });
+
+    options.AddSecurityDefinition("ApiKey", new OpenApiSecurityScheme
+    {
+        Description = "Owner authentication. Enter the API Key to enable POST, PUT, and DELETE requests.",        
+        Name = "x-api-key",
+        In = ParameterLocation.Header,
+        Type = SecuritySchemeType.ApiKey,
+        Scheme = "ApiKeyScheme"
+    });
+
+    options.AddSecurityRequirement(document => new OpenApiSecurityRequirement
+    {
+        [new OpenApiSecuritySchemeReference("ApiKey", document)] = []
     });
 });
 

@@ -1,5 +1,6 @@
 ﻿using LowPolyBacklogApi.DTOs.Backlog;
 using LowPolyBacklogApi.Entities;
+using LowPolyBacklogApi.Filters;
 using LowPolyBacklogApi.Services.Implementations;
 using LowPolyBacklogApi.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -39,6 +40,7 @@ namespace LowPolyBacklogApi.Controllers
             return Ok(entry);
         }
 
+        [ApiKeyAuth]
         [HttpPost]
         public async Task<ActionResult<BacklogResponseDto>> Create([FromBody] BacklogCreateDto entry)
         {
@@ -47,7 +49,7 @@ namespace LowPolyBacklogApi.Controllers
             return CreatedAtAction(nameof(GetById), new { id = createdEntry.Id }, createdEntry);
         }
 
-        
+        [ApiKeyAuth]
         [HttpPut("{id:int}")]
         public async Task<ActionResult<BacklogResponseDto>> Update(int id, [FromBody] BacklogUpdateDto entry)
         {
@@ -62,7 +64,7 @@ namespace LowPolyBacklogApi.Controllers
             }
         }
 
-        
+        [ApiKeyAuth]
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> Delete(int id)
         {
