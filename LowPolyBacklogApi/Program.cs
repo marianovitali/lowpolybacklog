@@ -50,13 +50,17 @@ builder.Services.AddScoped<IGameService, GameService>();
 builder.Services.AddScoped<IBacklogRepository, BacklogRepository>();
 builder.Services.AddScoped<IBacklogService, BacklogService>();
 
+var allowedOrigins = builder.Configuration
+    .GetSection("AllowedOrigins")
+    .Get<string[]>()!;
+
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowAll", policy =>
+    options.AddDefaultPolicy(optionsCORS =>
     {
-        policy.AllowAnyOrigin()
-              .AllowAnyMethod()
-              .AllowAnyHeader();
+        optionsCORS.WithOrigins(allowedOrigins)
+                   .AllowAnyMethod()
+                   .AllowAnyHeader();
     });
 });
 
@@ -79,7 +83,7 @@ else
 app.UseHttpsRedirection();
 
 
-app.UseCors("AllowAll");
+app.UseCors();
 app.MapControllers();
 
 
