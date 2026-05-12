@@ -1,11 +1,11 @@
 ﻿# 🎮 Low Poly Backlog API
 RESTful API para gestionar y hacer seguimiento de un backlog personal de videojuegos de PlayStation 1.
 
-## 🚀 Overview
+##  Overview
 Low Poly Backlog permite catalogar juegos retro, organizarlos y trackear el progreso de cada uno (estado, horas jugadas, rating y notas personales).
 El proyecto está diseñado como una API backend escalable, aplicando buenas prácticas de arquitectura y desarrollo en .NET.
 
-## 🧠 Arquitectura y Diseño
+##  Arquitectura y Diseño
 
 La aplicación sigue una arquitectura en capas, separando responsabilidades para mejorar mantenibilidad y testeo:
 
@@ -23,7 +23,7 @@ Controllers → Services → Repositories → DbContext → Database
 - **Entity Framework Core**: manejo de relaciones complejas (Many-to-Many y One-to-One)
 - **Paginación y filtrado dinámico**: endpoints preparados para escalar
 
-## 🛠️ Stack Tecnológico
+##  Stack Tecnológico
 
 - .NET 10 / C# 14.0
 - ASP.NET Core Web API
@@ -31,22 +31,22 @@ Controllers → Services → Repositories → DbContext → Database
 - SQL Server
 - Swagger / OpenAPI
 
-## 📦 Funcionalidades
+##  Funcionalidades
 
-### 🎮 Games
+###  Games
 - CRUD completo
 - Filtros por título, género y año
 - Paginación configurable
 - Relación Many-to-Many con géneros
 
-### 📋 Backlog
+###  Backlog
 - Estados: Pending, Playing, Completed, Abandoned
 - Rating (1–10) con validación
 - Registro de horas jugadas
 - Notas personales
 - Relación One-to-One con juegos
 
-## 📊 Ejemplo de uso
+##  Ejemplo de uso
 
 **Request:**
 ```
