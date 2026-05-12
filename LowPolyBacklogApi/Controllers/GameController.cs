@@ -11,10 +11,12 @@ namespace LowPolyBacklogApi.Controllers
     public class GameController : ControllerBase
     {
         private readonly IGameService _gameService;
+        private readonly IImageService _imageService;
 
-        public GameController(IGameService gameService)
+        public GameController(IGameService gameService, IImageService imageService)
         {
             _gameService = gameService;
+            _imageService = imageService;
         }
 
         [HttpGet]
@@ -48,9 +50,16 @@ namespace LowPolyBacklogApi.Controllers
 
         [ApiKeyAuth]
         [HttpPost]
-        public async Task<ActionResult<GameResponseDto>> Create([FromBody] GameCreateDto game)
+        public async Task<ActionResult<GameResponseDto>> Create([FromForm] GameCreateDto gameDto)
         {
-            var createdGame = await _gameService.CreateGameAsync(game);
+            if (gameDto.ImageFile != null)
+            {
+                var imageUrl = await _imageService.UploadImageAsync(gameDto.ImageFile);
+                gameDto.CoverImageUrl = imageUrl;
+            }
+
+
+            var createdGame = await _gameService.CreateGameAsync(gameDto);
 
             return CreatedAtAction(nameof(GetById), new { id = createdGame.Id }, createdGame);
         }

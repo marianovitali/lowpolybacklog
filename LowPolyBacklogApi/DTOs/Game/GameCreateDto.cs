@@ -28,5 +28,7 @@ namespace LowPolyBacklogApi.DTOs.Game
         [MinLength(1, ErrorMessage = "You must select at least one genre.")]
         public List<int> GenreIds { get; set; } = new();
 
+        public IFormFile? ImageFile { get; set; }
+
     }
 }

@@ -49,6 +49,10 @@ builder.Services.AddScoped<IGameRepository, GameRepository>();
 builder.Services.AddScoped<IGameService, GameService>();
 builder.Services.AddScoped<IBacklogRepository, BacklogRepository>();
 builder.Services.AddScoped<IBacklogService, BacklogService>();
+builder.Services.AddScoped<IImageService, ImageService>();
+
+
+
 
 var allowedOrigins = builder.Configuration
     .GetSection("AllowedOrigins")
