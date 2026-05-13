@@ -50,6 +50,8 @@ builder.Services.AddScoped<IGameService, GameService>();
 builder.Services.AddScoped<IBacklogRepository, BacklogRepository>();
 builder.Services.AddScoped<IBacklogService, BacklogService>();
 builder.Services.AddScoped<IImageService, ImageService>();
+builder.Services.AddScoped<IDashboardService, DashboardService>();
+
 
 
 
