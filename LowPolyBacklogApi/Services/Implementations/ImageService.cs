@@ -45,5 +45,24 @@ namespace LowPolyBacklogApi.Services.Implementations
             return uploadResult.SecureUrl.ToString();
         }
 
+        public async Task<string> UploadImageFromUrlAsync(string imageUrl)
+        {
+            var uploadParams = new ImageUploadParams
+            {
+                File = new FileDescription(imageUrl),
+                Folder = "lowpoly_covers" 
+            };
+
+            var uploadResult = await _cloudinary.UploadAsync(uploadParams);
+
+            if (uploadResult.Error != null)
+            {
+                throw new Exception($"Error al subir imagen a Cloudinary: {uploadResult.Error.Message}");
+            }
+
+            
+            return uploadResult.SecureUrl.ToString();
+        }
+
     }
 }

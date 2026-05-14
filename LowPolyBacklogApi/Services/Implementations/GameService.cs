@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using LowPolyBacklogApi.Data;
 using LowPolyBacklogApi.DTOs.Game;
+using LowPolyBacklogApi.DTOs.Igdb;
 using LowPolyBacklogApi.Entities;
 using LowPolyBacklogApi.Repositories.Interfaces;
 using LowPolyBacklogApi.Services.Interfaces;
@@ -13,12 +14,14 @@ namespace LowPolyBacklogApi.Services.Implementations
         private readonly IGameRepository _gameRepository;
         private readonly ApplicationDbContext _context;
         private readonly IMapper _mapper;
+        private readonly IImageService _imageService;
 
-        public GameService(IGameRepository gameRepository, ApplicationDbContext context, IMapper mapper)
+        public GameService(IGameRepository gameRepository, ApplicationDbContext context, IMapper mapper, IImageService imageService)
         {
             _gameRepository = gameRepository;
             _context = context;
             _mapper = mapper;
+            _imageService = imageService;
         }
 
         public async Task<(IEnumerable<GameResponseDto> items, int totalCount)> GetAllGamesAsync(GameQueryParameters parameters)
@@ -89,6 +92,30 @@ namespace LowPolyBacklogApi.Services.Implementations
             }
 
             await _gameRepository.DeleteAsync(game);
+        }
+
+        public async Task<GameResponseDto> ImportFromIgdbAsync(IgdbSearchResultDto igdbGame)
+        {
+            string? localCloudinaryUrl = null;
+
+            if (!string.IsNullOrEmpty(igdbGame.CoverImageUrl))
+            {
+                localCloudinaryUrl = await _imageService.UploadImageFromUrlAsync(igdbGame.CoverImageUrl);
+            }
+
+            var createDto = new GameCreateDto
+            {
+                Title = igdbGame.Title,
+                Synopsis = igdbGame.Synopsis ?? "Synopsis Unavailable",
+                ReleaseYear = igdbGame.ReleaseYear ?? 0,
+                Developer = igdbGame.Developer ?? "Unknown",
+                DiscCount = igdbGame.DiscCount,
+
+                CoverImageUrl = localCloudinaryUrl
+
+            };
+
+            return await CreateGameAsync(createDto);
         }
 
     }

@@ -3,6 +3,7 @@ using LowPolyBacklogApi.Repositories.Implementations;
 using LowPolyBacklogApi.Repositories.Interfaces;
 using LowPolyBacklogApi.Services.Implementations;
 using LowPolyBacklogApi.Services.Interfaces;
+using LowPolyBacklogApi.Settings;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi;
 
@@ -45,16 +46,22 @@ builder.Services.AddSwaggerGen(options =>
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer("name=DefaultConnection"));
 
+
+builder.Services.AddHttpClient();
+builder.Services.AddMemoryCache();
+
+
 builder.Services.AddScoped<IGameRepository, GameRepository>();
 builder.Services.AddScoped<IGameService, GameService>();
 builder.Services.AddScoped<IBacklogRepository, BacklogRepository>();
 builder.Services.AddScoped<IBacklogService, BacklogService>();
 builder.Services.AddScoped<IImageService, ImageService>();
 builder.Services.AddScoped<IDashboardService, DashboardService>();
+builder.Services.AddScoped<IIgdbAuthService, IgdbAuthService>();
+builder.Services.AddScoped<IIgdbService, IgdbService>();
 
 
-
-
+builder.Services.Configure<IgdbSettings>(builder.Configuration.GetSection("IgdbSettings"));
 
 var allowedOrigins = builder.Configuration
     .GetSection("AllowedOrigins")

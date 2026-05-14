@@ -1,4 +1,5 @@
 ﻿using LowPolyBacklogApi.DTOs.Game;
+using LowPolyBacklogApi.DTOs.Igdb;
 using LowPolyBacklogApi.Entities;
 
 namespace LowPolyBacklogApi.Services.Interfaces
@@ -10,5 +11,6 @@ namespace LowPolyBacklogApi.Services.Interfaces
         Task<GameResponseDto> CreateGameAsync(GameCreateDto game);
         Task<GameResponseDto> UpdateAsync(GameUpdateDto game, int id);
         Task DeleteAsync(int id);
+        Task<GameResponseDto> ImportFromIgdbAsync(IgdbSearchResultDto igdbGame);
     }
 }
