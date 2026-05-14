@@ -1,3 +1,5 @@
+using LowPolyBacklogWeb.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -9,6 +11,7 @@ builder.Services.AddHttpClient("LowPolyBacklogApi", client =>
     client.BaseAddress = new Uri("https://localhost:7045/");
 });
 
+builder.Services.AddScoped<IGameApiService, GameApiService>();
 
 
 var app = builder.Build();

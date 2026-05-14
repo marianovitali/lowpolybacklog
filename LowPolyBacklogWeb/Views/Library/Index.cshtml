@@ -1,4 +1,4 @@
-﻿@model LowPolyBacklogWeb.Models.PagedResponse<LowPolyBacklogWeb.Models.GameViewModel>
+﻿@model LowPolyBacklogWeb.Models.LibraryViewModel
 
 @{
     ViewData["Title"] = "Mi Biblioteca";
@@ -9,44 +9,42 @@
     <p>La colección definitiva de 32-bits.</p>
 </div>
 
+<!-- Formulario de Filtros Local -->
 <div style="background-color: #1e1e1e; padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #444;">
     <form method="get" asp-action="Index" style="display: flex; gap: 15px; justify-content: center; align-items: center; flex-wrap: wrap;">
         
-        
-        <input type="text" name="title" value="@ViewData["CurrentTitle"]" placeholder="Buscar por título..."
+        <input type="text" name="title" value="@Model.Filters.Title" placeholder="Buscar por título..."
                style="padding: 8px; border-radius: 4px; border: 1px solid #555; background-color: #222; color: white;" />
                
-        <input type="text" name="genre" value="@ViewData["CurrentGenre"]" placeholder="Género (ej: RPG)..."
+        <input type="text" name="genre" value="@Model.Filters.Genre" placeholder="Género (ej: RPG)..."
                style="padding: 8px; border-radius: 4px; border: 1px solid #555; background-color: #222; color: white;" />
                
-        <input type="number" name="year" value="@ViewData["CurrentYear"]" placeholder="Año..."
+        <input type="number" name="year" value="@Model.Filters.Year" placeholder="Año..."
                style="padding: 8px; border-radius: 4px; border: 1px solid #555; background-color: #222; color: white; width: 100px;" />
 
         <button type="submit" style="padding: 8px 20px; background-color: #00ffcc; color: black; border: none; border-radius: 4px; font-weight: bold; cursor: pointer;">
             Filtrar
         </button>
         
-        
+        <!-- Botón para limpiar los filtros -->
         <a asp-action="Index" style="padding: 8px 20px; background-color: #555; color: white; text-decoration: none; border-radius: 4px; font-weight: bold;">
             Limpiar
         </a>
     </form>
 </div>
 
-@if (Model.Items == null || !Model.Items.Any())
+@if (Model.Games.Items == null || !Model.Games.Items.Any())
 {
     <div style="text-align: center; padding: 3rem;">
-        <h3>Tu memory card está vacía...</h3>
-        <p>Todavía no agregaste ningún juego a tu colección.</p>
+        <h3>Tu memory card está vacía... o ningún juego coincide con tu búsqueda.</h3>
     </div>
 }
 else
 {
-    //basic grid
+    <!-- Grilla de Juegos -->
     <div style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: center;">
         
-      
-        @foreach (var game in Model.Items)
+        @foreach (var game in Model.Games.Items)
         {
             <div style="background-color: #1e1e1e; color: white; padding: 15px; border-radius: 8px; width: 220px; text-align: center; border: 2px solid #555;">
                 
@@ -68,16 +66,16 @@ else
 
     </div>
 
-    // pagination
+    <!-- Controles de Paginación con Memoria de Filtros -->
     <div style="display: flex; justify-content: center; align-items: center; gap: 15px; margin-top: 30px; margin-bottom: 30px;">
         
-        @if (Model.HasPrevious)
+        @if (Model.Games.HasPrevious)
         {
             <a asp-action="Index"
-                   asp-route-pageNumber="@(Model.PageNumber - 1)"
-                   asp-route-title="@ViewData["CurrentTitle"]"
-                   asp-route-genre="@ViewData["CurrentGenre"]"
-                   asp-route-year="@ViewData["CurrentYear"]"
+                   asp-route-pageNumber="@(Model.Games.PageNumber - 1)"
+                   asp-route-title="@Model.Filters.Title"
+                   asp-route-genre="@Model.Filters.Genre"
+                   asp-route-year="@Model.Filters.Year"
                    style="padding: 10px 20px; background-color: #333; color: white; text-decoration: none; border-radius: 5px; font-weight: bold;">
                 ◀ Anterior
             </a>
@@ -90,24 +88,22 @@ else
         }
 
         <span style="padding: 10px; color: #aaa; font-weight: bold;">
-            Página @Model.PageNumber de @Model.TotalPages
+            Página @Model.Games.PageNumber de @Model.Games.TotalPages
         </span>
 
-        @if (Model.HasNext)
+        @if (Model.Games.HasNext)
         {
-
             <a asp-action="Index"
-                   asp-route-pageNumber="@(Model.PageNumber + 1)"
-                   asp-route-title="@ViewData["CurrentTitle"]"
-                   asp-route-genre="@ViewData["CurrentGenre"]"
-                   asp-route-year="@ViewData["CurrentYear"]"
+                   asp-route-pageNumber="@(Model.Games.PageNumber + 1)"
+                   asp-route-title="@Model.Filters.Title"
+                   asp-route-genre="@Model.Filters.Genre"
+                   asp-route-year="@Model.Filters.Year"
                    style="padding: 10px 20px; background-color: #333; color: white; text-decoration: none; border-radius: 5px; font-weight: bold;">
-                 Siguiente ▶
+                Siguiente ▶
             </a>
         }
         else
         {
-            
             <span style="padding: 10px 20px; background-color: #222; color: #555; border-radius: 5px; font-weight: bold; cursor: not-allowed;">
                 Siguiente ▶
             </span>

@@ -1,4 +1,5 @@
 ﻿using LowPolyBacklogWeb.Models;
+using LowPolyBacklogWeb.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 
@@ -6,43 +7,25 @@ namespace LowPolyBacklogWeb.Controllers
 {
     public class LibraryController : Controller
     {
-        private readonly IHttpClientFactory _httpClientFactory;
 
-        public LibraryController(IHttpClientFactory httpClientFactory)
+        private readonly IGameApiService _gameService;
+
+        public LibraryController(IGameApiService gameService)
         {
-            _httpClientFactory = httpClientFactory;
+            _gameService = gameService;
         }
 
-        public async Task<IActionResult> Index(string? title, string? genre, int? year, int pageNumber = 1)
+        public async Task<IActionResult> Index([FromQuery] GameFilterViewModel filters)
         {
-            ViewData["CurrentTitle"] = title;
-            ViewData["CurrentGenre"] = genre;
-            ViewData["CurrentYear"] = year;
+            var gamesResult = await _gameService.GetGamesAsync(filters);
 
-            var client = _httpClientFactory.CreateClient("LowPolyBacklogApi");
-
-            var queryParams = new List<string> { $"pageNumber={pageNumber}" };
-
-            if (!string.IsNullOrEmpty(title)) queryParams.Add($"title={Uri.EscapeDataString(title)}");
-            if (!string.IsNullOrEmpty(genre)) queryParams.Add($"genre={Uri.EscapeDataString(genre)}");
-            if (year.HasValue) queryParams.Add($"year={year.Value}");
-
-            var queryString = string.Join("&", queryParams);
-
-            var response = await client.GetAsync($"api/games?{queryString}");
-
-            if (response.IsSuccessStatusCode)
+            var viewModel = new LibraryViewModel
             {
-                var jsonString = await response.Content.ReadAsStringAsync();
-                var pagedResult = JsonSerializer.Deserialize<PagedResponse<GameViewModel>>(
-                    jsonString,
-                    new JsonSerializerOptions { PropertyNameCaseInsensitive = true }
-                );
+                Games = gamesResult,
+                Filters = filters 
+            };
 
-                return View(pagedResult ?? new PagedResponse<GameViewModel>());
-            }
-
-            return View(new PagedResponse<GameViewModel>());
+            return View(viewModel);
         }
     }
 }
