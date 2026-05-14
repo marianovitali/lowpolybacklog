@@ -1,6 +1,5 @@
 ﻿# 🎮 Low Poly Backlog API
-RESTful API para gestionar y hacer seguimiento de un backlog personal de videojuegos de PlayStation 1.
-
+RESTful API para gestionar y hacer seguimiento de un backlog personal de videojuegos retro, inspirada en la era PlayStation 1.
 <div align="center">
   <img src="https://img.shields.io/badge/.NET_10-5C2D91?style=for-the-badge&logo=.net&logoColor=white" alt=".NET 10" />
   <img src="https://img.shields.io/badge/C%23_14-%23239120.svg?style=for-the-badge&logo=c-sharp&logoColor=white" alt="C#" />
@@ -32,6 +31,7 @@ Controllers → Services → Repositories → DbContext → Database
 - **AutoMapper**: simplifica el mapeo entre capas
 - **Entity Framework Core**: manejo de relaciones complejas (Many-to-Many y One-to-One)
 - **Paginación y filtrado dinámico**: endpoints preparados para escalar
+- **Consumo de APIs externas**: Usando HttpClientFactory
 
 ##  Stack Tecnológico
 
@@ -40,7 +40,7 @@ Controllers → Services → Repositories → DbContext → Database
 - Entity Framework Core (Code First)
 - SQL Server
 - Swagger / OpenAPI
-- Integración de terceros: Cloudinary SDK
+- Integración con APIs externas: Cloudinary SDK, IGDB API
 
 ##  Funcionalidades
 
@@ -48,6 +48,7 @@ Controllers → Services → Repositories → DbContext → Database
 - CRUD completo
 - Filtros por título, género y año con paginación configurable
 - Subida de carátulas de juegos integrando el servicio en la nube de Cloudinary
+- Búsqueda y autocompletado de videojuegos mediante integración con la API de IGDB
 
 ###  Backlog
 - Estados: Pending, Playing, Completed, Abandoned
@@ -103,18 +104,21 @@ dotnet user-secrets set "ApiKey" "TU_API_KEY_PERSONAL"
 dotnet user-secrets set "CloudinarySettings:ApiKey" "TU_CLOUDINARY_API_KEY"
 dotnet user-secrets set "CloudinarySettings:ApiSecret" "TU_CLOUDINARY_API_SECRET"
 
-# 4. Actualizar la base de datos local
+# 4. Configurar credenciales de IGDB / Twitch
+
+dotnet user-secrets set "IGDB:ClientId" "TU_CLIENT_ID"
+dotnet user-secrets set "IGDB:ClientSecret" "TU_CLIENT_SECRET"
+
+# 5. Actualizar la base de datos local
 dotnet ef database update
 
-# 5. Ejecutar la API
+# 6. Ejecutar la API
 dotnet run
 ```
 
 Swagger disponible en: `https://localhost:[port]/swagger`
 
 ##  Próximas mejoras
-
-[ ] Integración con API externa (IGDB) para autocompletar datos.
 
 [ ] Manejo global de excepciones (Global Exception Handler).
 
